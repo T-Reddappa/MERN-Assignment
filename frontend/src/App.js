@@ -7,7 +7,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/users");
+        const response = await fetch(
+          "https://userhub-yihb.onrender.com/api/users"
+        );
         const data = await response.json();
         console.log(data);
         setUsers(data);
