@@ -15,18 +15,101 @@ const createUser = async (req, res) => {
   }
 };
 
+const filterUsersBySearchTerm = (users, searchTerm) => {
+  if (!searchTerm) {
+    return users;
+  }
+
+  const lowerCasedSearchTerm = searchTerm.toLowerCase();
+
+  return users.filter(
+    (user) =>
+      user.last_name.toLowerCase().includes(lowerCasedSearchTerm) ||
+      user.first_name.toLowerCase().includes(lowerCasedSearchTerm)
+  );
+};
+
+const filterUsersByDomain = (users, domain) => {
+  if (!domain) {
+    return users;
+  }
+
+  return users.filter((user) => user.domain === domain);
+};
+
+const filterUsersByGender = (users, gender) => {
+  if (!gender) {
+    return users;
+  }
+
+  return users.filter((user) => user.gender === gender);
+};
+
+const filterUsersByAvailability = (users, availability) => {
+  if (!availability) {
+    return users;
+  }
+
+  return users.filter((user) => user.available === availability);
+};
+
 const getUsers = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+    const limit = parseInt(req.query.limit) || 200;
     const skip = (page - 1) * limit;
+    const searchTerm = req.query.search;
+    const domainFilter = req.query.domain;
+    const genderFilter = req.query.gender;
+    const availabilityFilter = req.query.availability;
 
-    const allUsers = await User.find({}).skip(skip).limit(limit);
+    let allUsers = await User.find({}).skip(skip).limit(limit);
+
+    // Apply filters sequentially
+    allUsers = filterUsersBySearchTerm(allUsers, searchTerm);
+    allUsers = filterUsersByDomain(allUsers, domainFilter);
+    allUsers = filterUsersByGender(allUsers, genderFilter);
+    allUsers = filterUsersByAvailability(allUsers, availabilityFilter);
+
     res.status(200).json(allUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+// const getUsers = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 200;
+//     const skip = (page - 1) * limit;
+//     const searchTerm = req.query.search;
+//     const domainFilter = req.query.domain;
+//     const genderFilter = req.query.gender;
+
+//     const allUsers = await User.find({}).skip(skip).limit(limit);
+
+//     if (searchTerm) {
+//       console.log(searchTerm);
+//       const filteredUsers = allUsers.filter(
+//         (user) =>
+//           user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//           user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+//       );
+//       return res.status(200).json(filteredUsers);
+//     }
+
+//     if (domainFilter || genderFilter) {
+//       const filteredUsers = allUsers.filter(
+//         (user) => user.domain.toLowerCase() === domainFilter.toLowerCase()
+//       );
+//       return res.status(200).json(filteredUsers);
+//     }
+
+//     res.status(200).json(allUsers);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 const getUserById = async (req, res) => {
   try {

@@ -1,0 +1,18 @@
+.user-card {
+  /* width: 10rem; */
+  font-size: 14px;
+  border: 2px solid lightskyblue;
+  border-radius: 10px;
+  /* text-align: start; */
+  padding: 1rem;
+}
+
+.user-avatar {
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.user-info {
+  margin: auto;
+  text-align: start;
+}

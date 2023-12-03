@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.search-bar {
+  border: 1px solid lightblue;
+  width: 50%;
+}
+
+.search-input {
+  width: 90%;
+  height: 1.5rem;
+  border: none;
+  outline: none;
+}

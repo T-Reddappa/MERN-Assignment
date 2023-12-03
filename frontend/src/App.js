@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./App.css";
-import UserCard from "./components/userCard";
+import Button from "@mui/material/Button";
+import SearchIcon from "@mui/icons-material/Search";
+
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./pages/home/homePage";
+import UserSearch from "./components/userSearch/userSearch";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://userhub-yihb.onrender.com/api/users"
-        );
-        const data = await response.json();
-        console.log(data);
-        setUsers(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
   return (
     <div className="App">
-      <div>
-        <h2>User Hub</h2>
-      </div>
-      {users?.map((user) => {
-        return <UserCard user={user} />;
-      })}
+      <h1>User Hub</h1>
+      <UserSearch />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 }
