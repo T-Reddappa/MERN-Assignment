@@ -21,6 +21,9 @@ function App() {
   }, []);
   return (
     <div className="App">
+      <div>
+        <h2>User Hub</h2>
+      </div>
       {users?.map((user) => {
         return <UserCard user={user} />;
       })}
