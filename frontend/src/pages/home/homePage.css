@@ -88,9 +88,10 @@
   right: 5rem;
   padding: 1rem;
   max-width: 10rem;
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 10px;
   background-color: lightskyblue;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .selected-users-container h3 {
   margin: 1rem 0;

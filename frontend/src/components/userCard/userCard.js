@@ -1,11 +1,12 @@
 // import React from "react";
-import React from "react";
+import React, { useMemo } from "react";
 
 import "./userCard.css";
 
-const UserCard = ({ user, onUserSelect, showCheckbox = true }) => {
+const UserCard = ({ user, onUserSelect, showCheckbox = true, isChecked }) => {
   const { avatar, domain, available, first_name, last_name, gender, email } =
     user;
+  const isUserSelected = useMemo(() => isChecked || false, [isChecked]);
 
   return (
     <div className="user-card">
@@ -15,6 +16,7 @@ const UserCard = ({ user, onUserSelect, showCheckbox = true }) => {
       {showCheckbox && (
         <input
           type="checkbox"
+          checked={isUserSelected}
           onChange={() => {
             onUserSelect(user);
           }}
@@ -22,7 +24,7 @@ const UserCard = ({ user, onUserSelect, showCheckbox = true }) => {
       )}
 
       <div className="user-info">
-        <p>
+        <p onClick={() => console.log(isChecked)}>
           <strong>Name:</strong> {first_name} {last_name}
         </p>
 

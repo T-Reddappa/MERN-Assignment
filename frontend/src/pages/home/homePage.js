@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { searchUsers } from "../../actions/userActions";
 import SearchAndFilter from "../../components/searchAndFilters/searchAndFilters";
@@ -51,14 +52,25 @@ const Home = () => {
     return isDomainUnique;
   };
 
+  const isSelectedUser = (user) => {
+    return selectedUsers.some((selectedUser) => selectedUser._id === user._id);
+  };
+
   const handleUserSelect = (user) => {
-    if (!user.available) {
-      return alert("Please select an available user.");
+    if (isSelectedUser(user)) {
+      return toast.error("User already selected.");
     }
+
+    if (!user.available) {
+      return toast.warn(
+        "Please select an available user. Utilize filters for ease."
+      );
+    }
+
     if (isUserSelectable(user)) {
       setSelectedUsers([...selectedUsers, user]);
     } else {
-      alert(
+      toast.warn(
         "Please select users with unique domains. Utilize filters for ease."
       );
     }
@@ -91,7 +103,10 @@ const Home = () => {
         ""
       )}
       <div className="home-container">
-        <b className="team-creation-info">
+        <b
+          className="team-creation-info"
+          onClick={() => console.log(selectedUsers, "SU")}
+        >
           Select Users from different Domains to create a Team
         </b>
         <div className="action-buttons">
@@ -183,7 +198,9 @@ const Home = () => {
                     key={user._id}
                     user={user}
                     onUserSelect={handleUserSelect}
-                    isChecked={selectedUsers.includes(user)}
+                    isChecked={selectedUsers.some(
+                      (selectedUser) => selectedUser._id === user._id
+                    )}
                   />
                 );
               })}
