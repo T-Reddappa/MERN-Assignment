@@ -16,6 +16,7 @@ const {
   updateUser,
   deleteUser,
   getUserById,
+  getAllUsers,
 } = require("./controllers/userControllers");
 
 app.get("/", (req, res) => {
@@ -33,6 +34,7 @@ app.get("/users", async (req, res) => {
 });
 
 //API routes
+app.get("/api/allUsers", getAllUsers);
 
 app.get("/api/users", getUsers);
 

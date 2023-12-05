@@ -1,0 +1,8 @@
+.user-list-card {
+  display: flex;
+  align-items: center;
+}
+
+.teams-container {
+  display: flex;
+}

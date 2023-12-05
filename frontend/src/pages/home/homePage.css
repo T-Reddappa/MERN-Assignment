@@ -10,3 +10,22 @@
   justify-content: center;
   padding: 2rem;
 }
+
+.search-bar {
+  margin: 1rem;
+}
+
+.search-bar input {
+  width: 30%;
+  height: 1.5rem;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 4px;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border: 1px solid lightblue;
+  border-radius: 5px;
+}
