@@ -1,49 +1,37 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+import UserCard from "../../components/userCard/userCard";
 
 import "./teamPage.css";
+
 const TeamPage = () => {
-  const users = useSelector((state) => state.users.users);
-  const domains = users?.map((user) => user.domain);
-  const teams = useSelector((state) => state.teams.team);
-
-  const usersByDomain = [...users].reduce((acc, user) => {
-    const domain = user.domain;
-    if (!acc[domain]) {
-      acc[domain] = [];
-    }
-
-    acc[domain].push(user);
-    return acc;
-  }, {});
-
-  const usersByDomainArray = Object.entries(usersByDomain)?.map(
-    ([domain, users]) => ({ domain, users })
-  );
+  const teams = useSelector((state) => state.teams.teams);
+  const navigate = useNavigate();
 
   return (
     <div>
-      <h2 onClick={() => console.log(teams)}>Create Team</h2>
+      <Button variant="outlined" onClick={() => navigate("/")}>
+        Back To Home
+      </Button>
+      <h2>Teams</h2>
       <div className="teams-container">
-        {usersByDomainArray.map(({ domain, users }) => {
-          return (
-            <div>
-              <h3>{domain}</h3>
-              {users?.map((user) => (
-                <div className="user-list-card">
-                  {/* <img
-                    className="user-list-avatar"
-                    src={user.avatar}
-                    alt="avatar"
-                  />*/}
-                  <p>
-                    Name: {user.first_name} {user.last_name}
-                  </p>
-                </div>
-              ))}
-            </div>
-          );
-        })}
+        {teams.length >= 1 ? (
+          teams?.map((team) => {
+            return (
+              <div>
+                <h3>{team.teamName}</h3>
+                {team.team?.map((user) => (
+                  <UserCard user={user} showCheckbox={false} />
+                ))}
+              </div>
+            );
+          })
+        ) : (
+          <p>Create a team to view here</p>
+        )}
       </div>
     </div>
   );

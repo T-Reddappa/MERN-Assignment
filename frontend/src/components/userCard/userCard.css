@@ -5,7 +5,8 @@
   border-radius: 10px;
   /* text-align: start; */
   padding: 1rem;
-  line-height: 1;
+  line-height: 1.5;
+  background-color: #e7eaf6;
 }
 
 .user-avatar {

@@ -1,11 +1,7 @@
-import React from "react";
+import { toast } from "react-toastify";
 
 const initialState = {
-  team: [],
-  teams: {
-    teamName: "",
-    team: [],
-  },
+  teams: [],
 };
 
 const teamReducer = (state = initialState, action) => {
@@ -15,6 +11,21 @@ const teamReducer = (state = initialState, action) => {
       return {
         ...state,
         team: [...state.team, action.payload],
+      };
+
+    case "CREATE_A_TEAM":
+      if (action.payload) {
+        toast.success("Team creation successful!");
+      }
+      return {
+        ...state,
+        teams: [
+          ...state.teams,
+          {
+            teamName: `Team ${state.teams.length + 1}`,
+            team: [...action.payload],
+          },
+        ],
       };
 
     default:
