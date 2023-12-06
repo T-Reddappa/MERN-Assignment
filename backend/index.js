@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const User = require("./model/userModel");
+
 const {
   createUser,
   getUsers,
@@ -18,6 +19,11 @@ const {
   getUserById,
   getAllUsers,
 } = require("./controllers/userControllers");
+const {
+  createTeam,
+  getTeamById,
+  getAllTeams,
+} = require("./controllers/teamControllers");
 
 app.get("/", (req, res) => {
   res.send("Helivers Assignment - UsersHub");
@@ -33,7 +39,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-//API routes
+//API User routes
 app.get("/api/allUsers", getAllUsers);
 
 app.get("/api/users", getUsers);
@@ -45,6 +51,14 @@ app.post("/api/users", createUser);
 app.put("/api/users/:id", updateUser);
 
 app.delete("/api/users/:id", deleteUser);
+
+//API Team routes
+
+app.post("/api/team", createTeam);
+
+app.get("/api/team", getAllTeams);
+
+app.get("/api/team/:id", getTeamById);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
