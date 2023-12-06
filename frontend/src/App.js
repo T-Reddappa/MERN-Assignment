@@ -9,6 +9,7 @@ import TeamPage from "./pages/team/teamPage";
 import Home from "./pages/home/homePage";
 
 import "./App.css";
+import { getAllTeams } from "./actions/teamActions";
 
 function App() {
   const paginatedUsers = useSelector((state) => state.users.paginatedUsers);
@@ -17,6 +18,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllUsers());
+    dispatch(getAllTeams());
   }, []);
 
   return (

@@ -15,6 +15,10 @@
   /* justify-content: center; */
 }
 
+.team-display {
+  cursor: pointer;
+}
+
 .team-card {
   border: 1px solid #ddd;
   border-radius: 8px;

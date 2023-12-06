@@ -1,29 +1,32 @@
 import { toast } from "react-toastify";
 
 const initialState = {
-  teams: [],
+  allTeams: [],
+  team: [],
 };
 
 const teamReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_TO_TEAM":
-      console.log(state.team);
+    case "GET_TEAMS":
       return {
         ...state,
-        team: [...state.team, action.payload],
+        allTeams: [...action.payload],
+      };
+    case "GET_A_TEAM":
+      return {
+        ...state,
+        team: [action.payload],
       };
 
     case "CREATE_A_TEAM":
-      if (action.payload) {
-        toast.success("Team creation successful!");
-      }
+      console.log("hello");
       return {
         ...state,
         teams: [
-          ...state.teams,
+          ...state.allTeams,
           {
-            teamName: `Team ${state.teams.length + 1}`,
-            team: [...action.payload],
+            teamName: action.payload.teamName,
+            team: [...action.payload.team],
           },
         ],
       };

@@ -4,10 +4,9 @@ const createTeam = async (req, res) => {
   try {
     const newTeam = new Team(req.body);
     const createdTeam = await newTeam.save();
-    console.log(createdTeam);
     res
       .status(201)
-      .json({ message: "Team created successfully." }, { team: createdTeam });
+      .json({ message: "Team created successfully.", team: createdTeam });
   } catch (err) {
     res
       .status(500)

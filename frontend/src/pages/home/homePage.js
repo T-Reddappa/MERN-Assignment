@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
 
 import { searchUsers } from "../../actions/userActions";
+import { createTeam } from "../../actions/teamActions";
 import SearchAndFilter from "../../components/searchAndFilters/searchAndFilters";
 import UserCard from "../../components/userCard/userCard";
 
@@ -14,6 +15,7 @@ import "./homePage.css";
 const Home = () => {
   const users = useSelector((state) => state.users.users);
   const filteredUsers = useSelector((state) => state.users.filteredUsers);
+  const allTeamsLength = useSelector((state) => state.teams.allTeams).length;
   const paginatedUsers = useSelector((state) => state.users.paginatedUsers);
   const pageCount = useSelector((state) => state.users.totalPages);
   const dispatch = useDispatch();
@@ -84,7 +86,12 @@ const Home = () => {
 
   const handleCreateTeam = () => {
     console.log("selectedusers", selectedUsers);
-    dispatch({ type: "CREATE_A_TEAM", payload: selectedUsers });
+    dispatch(
+      createTeam({
+        teamName: `Team-${allTeamsLength + 1}`,
+        team: selectedUsers,
+      })
+    );
     setSelectedUsers([]);
   };
 
