@@ -1,7 +1,23 @@
+.loading-container {
+  margin-top: 0rem;
+  padding: 0 1rem;
+}
+
+.no-matches-alert {
+  margin-top: 2rem;
+}
+
+.skeletons {
+  /* margin-top: 2rem; */
+  display: flex;
+  gap: 1rem;
+  border-radius: 10px;
+}
+
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px 20px;
 }
 
 .team-creation-info {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,6 +11,7 @@ import Home from "./pages/home/homePage";
 import "./App.css";
 
 function App() {
+  const paginatedUsers = useSelector((state) => state.users.paginatedUsers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,7 +21,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1 onClick={() => navigate("/")}>User Hub</h1>
+      <h1 onClick={() => navigate("/")} className="header">
+        User Hub
+      </h1>
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />

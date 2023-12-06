@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Pagination, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 import { searchUsers } from "../../actions/userActions";
 import SearchAndFilter from "../../components/searchAndFilters/searchAndFilters";
@@ -11,11 +12,11 @@ import UserCard from "../../components/userCard/userCard";
 import "./homePage.css";
 
 const Home = () => {
+  const users = useSelector((state) => state.users.users);
   const filteredUsers = useSelector((state) => state.users.filteredUsers);
   const paginatedUsers = useSelector((state) => state.users.paginatedUsers);
   const pageCount = useSelector((state) => state.users.totalPages);
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.users);
   const allDomains = users?.map((user) => user.domain);
   const domains = [...new Set(allDomains)];
   const allGenders = users?.map((user) => user.gender);
@@ -89,51 +90,91 @@ const Home = () => {
 
   return (
     <div>
-      {selectedUsers.length > 0 ? (
-        <ul className="selected-users-container">
-          <h3>Current Team</h3>
-          {selectedUsers?.map((user) => (
-            <li key={user._id}>
-              <img style={{ width: "20px" }} src={user.avatar} alt="avatar" />
-              {user.first_name} {user.last_name}
-            </li>
-          ))}
-        </ul>
+      {!users.length > 0 ? (
+        <div className="loading-container">
+          {/* <h3>Fetching... Please wait..</h3> */}
+          <Skeleton
+            variant="text"
+            width={500}
+            sx={{ fontSize: "2rem" }}
+            style={{ margin: "auto" }}
+          />
+          <Skeleton
+            variant="text"
+            width={170}
+            sx={{ fontSize: "3rem" }}
+            style={{ margin: "auto" }}
+          />
+          <Skeleton
+            variant="text"
+            // width={1000}
+            sx={{ fontSize: "3rem" }}
+            style={{ margin: "auto" }}
+          />
+          <Skeleton
+            variant="text"
+            width={600}
+            sx={{ fontSize: "2rem" }}
+            style={{ margin: "auto" }}
+          />
+          <div className="skeletons">
+            <Skeleton variant="rectangular" width={300} height={250} />
+            <Skeleton variant="rectangular" width={300} height={250} />
+            <Skeleton variant="rectangular" width={300} height={250} />
+            <Skeleton variant="rectangular" width={300} height={250} />
+          </div>
+        </div>
       ) : (
-        ""
-      )}
-      <div className="home-container">
-        <b
-          className="team-creation-info"
-          onClick={() => console.log(selectedUsers, "SU")}
-        >
-          Select Users from different Domains to create a Team
-        </b>
-        <div className="action-buttons">
-          {selectedDomains.length > 0 ? (
-            <Button variant="contained" onClick={() => handleCreateTeam()}>
-              Create A Team
-            </Button>
+        <>
+          {selectedUsers.length > 0 ? (
+            <ul className="selected-users-container">
+              <h3>Current Team</h3>
+              {selectedUsers?.map((user) => (
+                <li key={user._id}>
+                  <img
+                    style={{ width: "20px" }}
+                    src={user.avatar}
+                    alt="avatar"
+                  />
+                  {user.first_name} {user.last_name}
+                </li>
+              ))}
+            </ul>
           ) : (
             ""
           )}
+          <div className="home-container">
+            <b
+              className="team-creation-info"
+              onClick={() => console.log(selectedUsers, "SU")}
+            >
+              Select Users from different Domains to create a Team
+            </b>
+            <div className="action-buttons">
+              {selectedDomains.length > 0 ? (
+                <Button variant="contained" onClick={() => handleCreateTeam()}>
+                  Create A Team
+                </Button>
+              ) : (
+                ""
+              )}
 
-          <Button variant="outlined" onClick={() => navigate("/teams")}>
-            View Teams
-          </Button>
-        </div>
+              <Button variant="outlined" onClick={() => navigate("/teams")}>
+                View Teams
+              </Button>
+            </div>
 
-        <SearchAndFilter
-          search={search}
-          onSearchChange={setSearch}
-          domains={domains}
-          onDomainChange={setDomainFilter}
-          genders={genders}
-          onGenderChange={setGenderFilter}
-          availability={availabilityFilter}
-          onAvailabilityChange={setAvailabilityFilter}
-        />
-        {/* <div>
+            <SearchAndFilter
+              search={search}
+              onSearchChange={setSearch}
+              domains={domains}
+              onDomainChange={setDomainFilter}
+              genders={genders}
+              onGenderChange={setGenderFilter}
+              availability={availabilityFilter}
+              onAvailabilityChange={setAvailabilityFilter}
+            />
+            {/* <div>
           <div className="search-bar">
             <input
               type="text"
@@ -176,50 +217,54 @@ const Home = () => {
           </div>
         </div> */}
 
-        {selectedDomains.length > 0 ? (
-          <div className="user-selection-info">
-            <p>You have selected users in these domains:</p>
-            <ul>
-              {selectedDomains.map((domain) => (
-                <li key={domain}>{domain}</li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          ""
-        )}
+            {selectedDomains.length > 0 ? (
+              <div className="user-selection-info">
+                <p>You have selected users in these domains:</p>
+                <ul>
+                  {selectedDomains.map((domain) => (
+                    <li key={domain}>{domain}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              ""
+            )}
 
-        {paginatedUsers.length ? (
-          <>
-            <div className="users-container">
-              {paginatedUsers?.map((user) => {
-                return (
-                  <UserCard
-                    key={user._id}
-                    user={user}
-                    onUserSelect={handleUserSelect}
-                    isChecked={selectedUsers.some(
-                      (selectedUser) => selectedUser._id === user._id
-                    )}
+            {paginatedUsers.length ? (
+              <>
+                <div className="users-container">
+                  {paginatedUsers?.map((user) => {
+                    return (
+                      <UserCard
+                        key={user._id}
+                        user={user}
+                        onUserSelect={handleUserSelect}
+                        isChecked={selectedUsers.some(
+                          (selectedUser) => selectedUser._id === user._id
+                        )}
+                      />
+                    );
+                  })}
+                </div>
+
+                <div className="pagination">
+                  <Pagination
+                    count={pageCount}
+                    variant="outlined"
+                    color="primary"
+                    page={page}
+                    onChange={handlePageChange}
                   />
-                );
-              })}
-            </div>
-
-            <div className="pagination">
-              <Pagination
-                count={pageCount}
-                variant="outlined"
-                color="primary"
-                page={page}
-                onChange={handlePageChange}
-              />
-            </div>
-          </>
-        ) : (
-          <h2>No users found with the required filters.</h2>
-        )}
-      </div>
+                </div>
+              </>
+            ) : (
+              <h2 className="no-matches-alert">
+                No users found with the required filters.
+              </h2>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
