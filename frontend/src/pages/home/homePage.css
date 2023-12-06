@@ -133,4 +133,8 @@
     margin-right: 0;
     width: 100%;
   }
+  .skeletons {
+    flex-direction: column;
+    align-items: center;
+  }
 }
